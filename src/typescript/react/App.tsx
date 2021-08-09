@@ -4,7 +4,7 @@ import { ajax } from 'rxjs/ajax'
 import { filter, map, switchMap } from 'rxjs/operators'
 
 import { IPost, IPostData, IPostInstance, IPosts } from '@core'
-import {postCheck} from '@core/functions/postCheck'
+import {postCheck} from './src/typescript/core/functions/postCheck'
 //import userData from '@core/classes/userData'
 
 
