@@ -1,10 +1,10 @@
-declare module '@core/*' {
+/* declare module '@core/*' {
     export const postKeys: string[];
     export const types: string[];
     export function postCheck(post: Object): boolean;
 };
 declare module '@react/*';
-declare module '@redux/*';
+declare module '@redux/*'; */
 
 declare module '@core' {
     export interface IPost {
