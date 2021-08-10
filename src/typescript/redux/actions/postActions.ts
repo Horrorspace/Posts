@@ -1,4 +1,4 @@
-import {ActTypes} from '@redux/types/PostActTypes'
+import {PostActTypes} from '@redux/types/PostActTypes'
 
 export const downloadPosts = (): IreduxAction => {
     return {
