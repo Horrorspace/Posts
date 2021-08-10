@@ -75,6 +75,7 @@
     "./build"
   ],
   "include": [
+    "src",
     "**/*.ts",
     "**/*.tsx"
   ]
