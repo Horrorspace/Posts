@@ -6,13 +6,15 @@ export const downloadPosts = (): IreduxAction => {
         type: PostActTypes.downloadPosts,
     }
 };
-export const sendNewPost = (): IreduxAction => {
+export const sendNewPost = (newPost: INewPost): IreduxAction => {
     return {
         type: PostActTypes.sendNewPost,
+        newPost
     }
 };
-export const putPost = (): IreduxAction => {
+export const putPost = (post: IPostInstance): IreduxAction => {
     return {
         type: PostActTypes.putPost,
+        post
     }
 };
