@@ -3,7 +3,8 @@ import { IPost, IPostData, IPostInstance, IPosts, INewPost } from '@core/interfa
 
 export interface IreduxAction {
     type: string;
-    post?: INewPost;
+    newPost?: INewPost;
+    post?: IPostInstance;
     posts?: IPosts;
 }
 
