@@ -93,17 +93,16 @@ const defaultState: IreduxState = {
 export const postReducer: Reducer = (state: IreduxState = defaultState, action: IreduxAction): IreduxState => {
     switch (action.type) {
         case PostActTypes.downloadPosts:
-            downloadPosts();
             return {
                 ...state,
-                isDataUpdating: false
+                isDataUpdating: true
             }
         case PostActTypes.sendNewPost:
             if(action.post) {
                 sendNewPost(action.newPost);
                 return {
                     ...state,
-                    isDataUpdating: false
+                    isDataUpdating: true
                 }
             }
             else {
@@ -114,6 +113,17 @@ export const postReducer: Reducer = (state: IreduxState = defaultState, action: 
                 putPost(action.post)
                 return {
                     ...state,
+                    isDataUpdating: true
+                }
+            }
+            else {
+                return state
+            }
+        case PostActTypes.updatePosts:
+            if(action.posts) {
+                return {
+                    ...state,
+                    posts,
                     isDataUpdating: false
                 }
             }
