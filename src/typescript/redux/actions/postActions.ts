@@ -1,4 +1,5 @@
 import {PostActTypes} from '@redux/types/PostActTypes'
+import {IreduxAction} from '@redux/interfaces/IRedux'
 
 export const downloadPosts = (): IreduxAction => {
     return {
@@ -13,10 +14,5 @@ export const sendNewPost = (): IreduxAction => {
 export const putPost = (): IreduxAction => {
     return {
         type: PostActTypes.putPost,
-    }
-};
-export const updatePosts = (): IreduxAction => {
-    return {
-        type: PostActTypes.updatePosts,
     }
 };
