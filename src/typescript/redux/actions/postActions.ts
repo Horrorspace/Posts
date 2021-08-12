@@ -1,17 +1,14 @@
 import {PostActTypes} from '@redux/types/PostActTypes'
-import {IreduxAction} from '@redux/interfaces/IRedux'
+import {IreduxAction, IThunkAction, IreduxState} from '@redux/interfaces/IRedux'
 import { IPostInstance, IPosts, INewPost } from '@core/interfaces/IPost'
-import downloadPosts from '@core/functions/downloadPosts'
+import downloadAllPosts from '@core/functions/downloadAllPosts'
+import { Dispatch } from 'react'
 
 
-export const downloadPosts = (): IreduxAction => {
-    return async (dispatch) => {
-        const posts: IPosts = await downloadPosts();
+export const downloadPosts = (): IThunkAction => {
+    return async (dispatch: Dispatch<IreduxAction>): Promise<void> => {
+        const posts: IPosts = await downloadAllPosts();
         dispatch(updatePosts(posts));
-    }
-    
-    return {
-        type: PostActTypes.downloadPosts,
     }
 };
 export const sendNewPost = (newPost: INewPost): IreduxAction => {
@@ -28,11 +25,11 @@ export const putPost = (post: IPostInstance): IreduxAction => {
 };
 export const updatePosts = (posts: IPosts): IreduxAction => {
     return {
-        type: PostActTypes.putPost,
+        type: PostActTypes.updatePosts,
         posts
     }
 };
-export const updatePosts = (): IreduxAction => {
+export const setDefault = (): IreduxAction => {
     return {
         type: PostActTypes.setDefault,
     }

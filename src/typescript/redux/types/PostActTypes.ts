@@ -1,5 +1,5 @@
 export enum PostActTypes {
-    downloadPosts = 'downloadPosts',
+    downloadAllPosts = 'downloadAllPosts',
     sendNewPost = 'sendNewPost',
     putPost = 'putPost',
     updatePosts = 'updatePosts',

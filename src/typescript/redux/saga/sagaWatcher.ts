@@ -4,5 +4,5 @@ import {sagaUpdate} from '@redux/saga/sagaUpdate'
 
 
 export function* sagaWatcher() {
-    yield takeEvery(PostActTypes.downloadPosts, sagaUpdate);
+    yield takeEvery(PostActTypes.downloadAllPosts, sagaUpdate);
 }

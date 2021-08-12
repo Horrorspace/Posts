@@ -40,8 +40,6 @@ function downloadPosts(): Promise<IPosts> {
     })
 }
 
-console.log(downloadPosts().then(val => console.log(val.getAllPosts)));
-
 function sendNewPost(post: INewPost): Promise<void> {
     return new Promise(resolve => {
         const data$ = ajax({
@@ -92,13 +90,13 @@ const defaultState: IreduxState = {
 
 export const postReducer: Reducer = (state: IreduxState = defaultState, action: IreduxAction): IreduxState => {
     switch (action.type) {
-        case PostActTypes.downloadPosts:
+        case PostActTypes.downloadAllPosts:
             return {
                 ...state,
                 isDataUpdating: true
             }
         case PostActTypes.sendNewPost:
-            if(action.post) {
+            if(action.newPost) {
                 sendNewPost(action.newPost);
                 return {
                     ...state,
@@ -123,13 +121,15 @@ export const postReducer: Reducer = (state: IreduxState = defaultState, action: 
             if(action.posts) {
                 return {
                     ...state,
-                    posts,
+                    posts: action.posts,
                     isDataUpdating: false
                 }
             }
             else {
                 return state
             }
+        case PostActTypes.setDefault:
+            return defaultState
         default:
             return state
     }
