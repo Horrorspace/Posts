@@ -3,5 +3,6 @@ export enum PostActTypes {
     sendNewPost = 'sendNewPost',
     putPost = 'putPost',
     updatePosts = 'updatePosts',
-    setDefault = 'setDefault'
+    setDefault = 'setDefault',
+    setUpdating = 'setUpdating'
   }

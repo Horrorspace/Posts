@@ -97,7 +97,6 @@ export const postReducer: Reducer = (state: IreduxState = defaultState, action: 
             }
         case PostActTypes.sendNewPost:
             if(action.newPost) {
-                sendNewPost(action.newPost);
                 return {
                     ...state,
                     isDataUpdating: true
@@ -108,7 +107,6 @@ export const postReducer: Reducer = (state: IreduxState = defaultState, action: 
             }
         case PostActTypes.putPost:
             if(action.post) {
-                putPost(action.post)
                 return {
                     ...state,
                     isDataUpdating: true
@@ -130,6 +128,11 @@ export const postReducer: Reducer = (state: IreduxState = defaultState, action: 
             }
         case PostActTypes.setDefault:
             return defaultState
+        case PostActTypes.setUpdating:
+                return {
+                    ...state,
+                    isDataUpdating: true
+                }
         default:
             return state
     }

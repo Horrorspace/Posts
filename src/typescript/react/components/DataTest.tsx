@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import {IAction, IThunkAction, IreduxState, IRootReducer} from '@redux/interfaces/IRedux'
 import {Provider, useSelector, useStore} from 'react-redux'
 import { Store } from 'redux'
@@ -6,11 +6,17 @@ import {store} from '@redux/store'
 import { IPost, IPostData, IPostInstance, IPosts, INewPost } from '@core/interfaces/IPost'
 import Post from '@core/classes/Post'
 import Posts from '@core/classes/Posts'
-import {downloadPosts, setDefault} from '@redux/actions/postActions'
+import {downloadPosts, setDefault, sendNewPost} from '@redux/actions/postActions'
+
 
 
 const testData: IPostData = {
     id: 2,
+    title: 'Hey',
+    body: 'Test',
+    userId: 7
+};
+const newPost: INewPost = {
     title: 'Hey',
     body: 'Test',
     userId: 7
@@ -21,26 +27,33 @@ testPosts.addPost(testPost);
 
 
 
-console.log(store.getState());
+
 store.dispatch(downloadPosts());
 
-// setTimeout(() => {
-//     console.log(store.getState());
-//     store.dispatch(setDefault());
-//     console.log(store.getState());
-// }, 5000);
+setTimeout(() => {
+    store.dispatch(setDefault());
+    store.dispatch(sendNewPost(newPost))
+}, 3000)
+
 
 
 
 
 export const DataTest: React.FC = () => {
-    const posts = useSelector((state: IRootReducer) => state.post.posts.getAllPosts());
-    const len: number = posts.length;
-    console.log(posts);
+    const posts: IPostInstance[] = useSelector((state: IRootReducer) => state.post.posts.getAllPosts());
+
+    
+    const postList = posts.map(
+        (post: IPostInstance): ReactElement => {
+            return (
+                <li>{post.getTitle()}</li>
+            )
+        }
+    );
     
     return (
             <div>
-                {len > 0 ? posts[len-1].getBody() : 'Hello'}
+                {postList}
             </div>
     )
 }

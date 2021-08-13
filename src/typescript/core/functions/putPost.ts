@@ -9,7 +9,7 @@ import { filter, map, switchMap } from 'rxjs/operators'
 
 const url: string = 'https://jsonplaceholder.typicode.com/posts';
 
-function putPost(post: IPostInstance): Promise<void> {
+export default function putPost(post: IPostInstance): Promise<void> {
     return new Promise(resolve => {
         const putUrl = `${url}/${post.getId()}`;
         const data$ = ajax({

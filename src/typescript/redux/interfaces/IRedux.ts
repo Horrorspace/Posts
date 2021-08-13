@@ -19,4 +19,5 @@ export interface IRootReducer {
 }
 
 export type IThunkAction = ThunkAction<void, IreduxState, unknown, AnyAction>
+export type IThunkState = () => IreduxState
 export type IAction = IreduxAction | IThunkAction
