@@ -1,60 +1,71 @@
-import React, { ReactElement, useState, MouseEvent } from 'react'
+import React, { ReactElement, useState, MouseEvent, ChangeEvent } from 'react'
 import {IAction, IThunkAction, IreduxState, IRootReducer} from '@redux/interfaces/IRedux'
-import {Provider, useSelector, useStore} from 'react-redux'
-import { Store } from 'redux'
-import {store} from '@redux/store'
+import {useSelector, useDispatch} from 'react-redux'
 import { IPost, IPostData, IPostInstance, IPosts, INewPost } from '@core/interfaces/IPost'
 import Post from '@core/classes/Post'
 import Posts from '@core/classes/Posts'
-import {downloadPosts, setDefault, sendNewPost} from '@redux/actions/postActions'
-import {Modal, Button, Container} from 'react-bootstrap'
-
-
-
-const testData: IPostData = {
-    id: 2,
-    title: 'Hey',
-    body: 'Test',
-    userId: 7
-};
-const newPost: INewPost = {
-    title: 'Hey',
-    body: 'Test',
-    userId: 7
-};
-const testPost: IPostInstance = new Post(testData);
-const testPosts: IPosts = new Posts();
-testPosts.addPost(testPost);
-
-
-
-
-store.dispatch(downloadPosts());
-
-setTimeout(() => {
-    store.dispatch(setDefault());
-    store.dispatch(sendNewPost(newPost))
-}, 3000)
-
-
+import {Modal, Button, Container, Form} from 'react-bootstrap'
+import {delPost, putPost} from '@redux/actions/postActions'
 
 
 
 export const DataTest: React.FC = () => {
-    const posts: IPostInstance[] = useSelector((state: IRootReducer) => state.post.posts.getAllPosts());
-    const idArr: number[] = posts.map((val: IPostInstance) => val.getId());
+    const posts: IPosts = useSelector((state: IRootReducer) => state.post.posts);
+    const postsList: IPostInstance[] = posts.getAllPosts();
+    const idArr: number[] = postsList.map((val: IPostInstance) => val.getId());
     const [show, setShow] = useState(false);
+    const [showEditor, setShowEditor] = useState(false);
     const [activeId, setActiveId] = useState(0);
+    const [editorTitle, setEditTitle] = useState('');
+    const [editorBody, setEditBody] = useState('');
+    const dispatch = useDispatch();
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setShowEditor(false);
+    };
     const handleShow = (e: MouseEvent<HTMLButtonElement>) => {
         const target = e.target as HTMLButtonElement;
         const id: number = parseInt(target.id, 10);
         setActiveId(id);
         setShow(true);
     };
+    const handleDel = () => {
+        const id: number = activeId;
+        const postToDel: IPostInstance = posts.getPostById(id);
+        setShow(false);
+        dispatch(delPost(postToDel));
+    };
+    const handeEdit = () => {
+        const id: number = activeId;
+        const post: IPostInstance = posts.getPostById(id);
+        const title: string = post.getTitle();
+        const body: string = post.getBody();
+        setEditTitle(title);
+        setEditBody(body);
+        setShowEditor(true);
+    };
+    const handleSave = () => {
+        const id: number = activeId;
+        const postToPut: IPostInstance = posts.getPostById(id);
+        postToPut.setBody(editorBody);
+        postToPut.setTitle(editorTitle);
+        dispatch(putPost(postToPut));
+        setShow(false);
+        setShowEditor(false);
+    };
+    const handleBodyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        const target = e.target as HTMLTextAreaElement;
+        const value: string = target.value;
+        setEditBody(value);
+    };
+    const handleTitleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        const target = e.target as HTMLTextAreaElement;
+        const value: string = target.value;
+        setEditTitle(value);
+    };
     
-    const postTitleList: ReactElement[] = posts.map(
+    const postTitleList: ReactElement[] = postsList.map(
         (post: IPostInstance): ReactElement => {
             return (
                 <Container fluid="sm" className="d-flex flex-column justify-content-center">
@@ -65,21 +76,89 @@ export const DataTest: React.FC = () => {
             )
         }
     );
-    const postList: ReactElement[] = posts.map(
+    const postList: ReactElement[] = postsList.map(
         (post: IPostInstance): ReactElement => {
+            
+            const buttons = (): ReactElement => {
+                if(showEditor) {
+                    return (
+                        <>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <Button variant="danger" onClick={handleDel}>
+                                Delete
+                            </Button>
+                            <Button variant="primary" onClick={handleSave}>
+                                Save
+                            </Button>
+                        </>
+                        )
+                }
+                else {
+                    return (
+                        <>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <Button variant="danger" onClick={handleDel}>
+                                Delete
+                            </Button>
+                            <Button variant="primary" onClick={handeEdit}>
+                                Edit
+                            </Button>
+                        </>
+                    )
+                }
+
+            }
+
+            const title = (): ReactElement => {
+                if(showEditor) {
+                    return (
+                        <>
+                           <Form.Control as="textarea" rows={1} value={editorTitle} onChange={handleTitleChange} /> 
+                        </>
+                    )
+                }
+                else {
+                    return (
+                        <>
+                           {post.getTitle()}
+                        </>
+                    )
+                }
+            }
+
+            const body = (): ReactElement => {
+                if(showEditor) {
+                    return (
+                        <>
+                           <Form.Control as="textarea" rows={3} value={editorBody} onChange={handleBodyChange} /> 
+                        </>
+                    )
+                }
+                else {
+                    return (
+                        <>
+                           {post.getBody()}
+                        </>
+                    )
+                }
+            }
+            
             return (
                 <Modal show={show && activeId == post.getId()} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{post.getTitle()}</Modal.Title>
+                    <Modal.Header>
+                        <Modal.Title>
+                            {title()}
+                        </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>{post.getBody()}</Modal.Body>
+                    <Modal.Body>
+                        {body()}
+                    </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={handleClose}>
-                            Edit
-                        </Button>
+                        {buttons()}
                     </Modal.Footer>
                 </Modal>
             )
