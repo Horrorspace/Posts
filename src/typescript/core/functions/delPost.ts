@@ -7,10 +7,12 @@ import { url } from '@core/constants/urlConst'
 
 export default function delPost(post: IPostInstance): Promise<void> {
     return new Promise(resolve => {
-        const putUrl = `${url}/${post.getId()}`;
+        const id: number = post.getId();
+        const delUrl = `${url}/${id}`;
         const data$ = ajax({
-            url: putUrl,
+            url: delUrl,
             method: 'DELETE',
+            body: JSON.stringify(id)
         }).pipe(
             map((res) => {
                 console.log(res);
