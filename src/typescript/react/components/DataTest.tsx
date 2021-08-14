@@ -1,11 +1,17 @@
 import React, { ReactElement, useState, MouseEvent, ChangeEvent } from 'react'
 import {IAction, IThunkAction, IreduxState, IRootReducer} from '@redux/interfaces/IRedux'
 import {useSelector, useDispatch} from 'react-redux'
+import {store} from '@redux/store'
 import { IPost, IPostData, IPostInstance, IPosts, INewPost } from '@core/interfaces/IPost'
 import Post from '@core/classes/Post'
 import Posts from '@core/classes/Posts'
 import {Modal, Button, Container, Form} from 'react-bootstrap'
-import {delPost, putPost} from '@redux/actions/postActions'
+import {delPost, putPost, downloadPosts} from '@redux/actions/postActions'
+
+
+
+store.dispatch(downloadPosts());
+
 
 
 
