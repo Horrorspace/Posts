@@ -1,13 +1,8 @@
-import { IPostData, IPostInstance, IPosts, INewPost } from '@core/interfaces/IPost'
-import postCheck from '@core/functions/postCheck'
-import Post from '@core/classes/Post'
-import Posts from '@core/classes/Posts'
-import { from, Subscription } from 'rxjs'
+import { INewPost } from '@core/interfaces/IPost'
+import { Subscription } from 'rxjs'
 import { ajax } from 'rxjs/ajax'
-import { filter, map, switchMap } from 'rxjs/operators'
-
-
-const url: string = 'https://jsonplaceholder.typicode.com/posts';
+import { map } from 'rxjs/operators'
+import { url } from '@core/constants/urlConst'
 
 
 export default function sendNewPost(post: INewPost): Promise<void> {

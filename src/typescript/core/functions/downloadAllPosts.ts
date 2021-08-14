@@ -5,9 +5,8 @@ import Posts from '@core/classes/Posts'
 import { from, Subscription } from 'rxjs'
 import { ajax } from 'rxjs/ajax'
 import { filter, map, switchMap } from 'rxjs/operators'
+import { url } from '@core/constants/urlConst'
 
-
-const url: string = 'https://jsonplaceholder.typicode.com/posts';
 
 export default function downloadAllPosts(): Promise<IPosts> {
     return new Promise(resolve => {
