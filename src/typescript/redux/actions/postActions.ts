@@ -4,6 +4,7 @@ import { IPostInstance, IPosts, INewPost } from '@core/interfaces/IPost'
 import downloadAllPosts from '@core/functions/downloadAllPosts'
 import sendNewPostFunc from '@core/functions/sendNewPost'
 import putPostFunc from '@core/functions/putPost'
+import delPostFunc from '@core/functions/delPost'
 import { Dispatch } from 'react'
 
 
@@ -22,6 +23,12 @@ export const sendNewPost = (newPost: INewPost): IThunkAction => {
 export const putPost = (post: IPostInstance): IThunkAction => {
     return async (dispatch: Dispatch<IreduxAction>): Promise<void> => {
         await putPostFunc(post);
+        dispatch(setUpdating());
+    }
+};
+export const delPost = (post: IPostInstance): IThunkAction => {
+    return async (dispatch: Dispatch<IreduxAction>): Promise<void> => {
+        await delPostFunc(post);
         dispatch(setUpdating());
     }
 };
