@@ -10,8 +10,11 @@ import { url } from '@core/constants/urlConst'
 
 export default function downloadAllPosts(): Promise<IPosts> {
     return new Promise(resolve => {
+        const headers = {
+            'Content-Type': 'application/json'
+        };
         const posts: IPosts = new Posts();
-        const data$ = ajax.getJSON(url).pipe(
+        const data$ = ajax.getJSON(url, headers).pipe(
             switchMap((val: any) => from(val)),
             filter((val: any) => typeof(val) === 'object'),
             filter((val: any) => postCheck(val)),

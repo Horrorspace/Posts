@@ -5,13 +5,8 @@ import {store} from '@redux/store'
 import { IPost, IPostData, IPostInstance, IPosts, INewPost } from '@core/interfaces/IPost'
 import Post from '@core/classes/Post'
 import Posts from '@core/classes/Posts'
-import {Modal, Button, Container, Form} from 'react-bootstrap'
-import {delPost, putPost, downloadPosts} from '@redux/actions/postActions'
-
-
-
-store.dispatch(downloadPosts());
-
+import {Modal, Button, Container, Form, Row, Col} from 'react-bootstrap'
+import {delPost, putPost, sendNewPost, downloadPosts} from '@redux/actions/postActions'
 
 
 
@@ -24,11 +19,13 @@ export const DataTest: React.FC = () => {
     const [activeId, setActiveId] = useState(0);
     const [editorTitle, setEditTitle] = useState('');
     const [editorBody, setEditBody] = useState('');
+    const [showNew, setShowNew] = useState(false);
     const dispatch = useDispatch();
 
     const handleClose = () => {
         setShow(false);
         setShowEditor(false);
+        setShowNew(false);
     };
     const handleShow = (e: MouseEvent<HTMLButtonElement>) => {
         const target = e.target as HTMLButtonElement;
@@ -60,6 +57,17 @@ export const DataTest: React.FC = () => {
         setShow(false);
         setShowEditor(false);
     };
+    const handleSend = () => {
+        const newPost: INewPost = {
+            title: editorTitle,
+            body: editorBody,
+            userId: 1
+        }
+        if(newPost.title.length > 0 && newPost.body.length > 0) {
+            dispatch(sendNewPost(newPost));
+        }
+        setShowNew(false);
+    };
     const handleBodyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const target = e.target as HTMLTextAreaElement;
         const value: string = target.value;
@@ -70,6 +78,34 @@ export const DataTest: React.FC = () => {
         const value: string = target.value;
         setEditTitle(value);
     };
+    const handeUpdate = () => {
+        dispatch(downloadPosts());
+    };
+    const handeAddPost = () => {
+        setEditTitle('');
+        setEditBody('');
+        setShowNew(true);
+    };
+
+    const newPostEditor: ReactElement = 
+        <Modal show={showNew} onHide={handleClose}>
+            <Modal.Header>
+                <Modal.Title>
+                    <Form.Control as="textarea" rows={1} value={editorTitle} onChange={handleTitleChange} /> 
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form.Control as="textarea" rows={3} value={editorBody} onChange={handleBodyChange} /> 
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={handleSend}>
+                    Save
+                </Button>
+            </Modal.Footer>
+        </Modal>
     
     const postTitleList: ReactElement[] = postsList.map(
         (post: IPostInstance): ReactElement => {
@@ -173,7 +209,20 @@ export const DataTest: React.FC = () => {
     
     return (
             <Container fluid>
+                <Row>
+                    <Col>
+                        <Button variant="primary" onClick={handeUpdate}>
+                            Update posts
+                        </Button> 
+                    </Col>
+                    <Col>
+                        <Button variant="primary" onClick={handeAddPost}>
+                            Add new post
+                        </Button> 
+                    </Col>
+                </Row>
                 {postTitleList}
+                {newPostEditor}
                 {postList}
             </Container>
     )
