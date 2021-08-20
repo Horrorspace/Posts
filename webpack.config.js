@@ -33,26 +33,27 @@ module.exports = {
         app: './index.tsx',
     },
     output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, './build'),
+        filename: 'public/js/[name].js',
+        path: path.resolve(__dirname, 'build'),
     },
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Posts',
             template: './template.html',
+            scriptLoading: 'defer',
             minify: {
                 collapseWhitespace: isProd
             }
         }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: '[name].css'
+            filename: 'public/css/[name].css'
         }),
         new CopyWebpackPlugin({
             patterns: [
                 {
                     from: path.resolve(__dirname, 'src/public/favicon.ico'),
-                    to: path.resolve(__dirname, 'build')
+                    to: path.resolve(__dirname, 'build', 'public')
                 }
             ],
             options: {
