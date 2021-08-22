@@ -1,5 +1,5 @@
-import {put as putUntyped} from 'redux-saga/effects'
-import {downloadPosts} from '@redux/actions/postActions'
+import {put, put as putUntyped} from 'redux-saga/effects'
+import {downloadPosts, setDefault} from '@redux/actions/postActions'
 import {IAction} from '@redux/interfaces/IRedux'
 import { SimpleEffect } from '@redux-saga/types'
 
@@ -12,9 +12,9 @@ interface PutEffectDescriptor<A extends IAction> {
 type PutEffect<A extends IAction> = SimpleEffect<'PUT', PutEffectDescriptor<A>>
 type putSaga = (action: IAction) => PutEffect<IAction>
 
-const put = putUntyped as putSaga;
+const thunkPut = putUntyped as putSaga;
 
 export function* sagaUpdate()
 {
-    yield put(downloadPosts());
+  yield thunkPut(downloadPosts());
 }

@@ -1,4 +1,4 @@
-import {default as createSaga} from "redux-saga"
+import createSagaMiddleware from "redux-saga"
 
 
-export const saga = createSaga();
+export const saga = createSagaMiddleware();

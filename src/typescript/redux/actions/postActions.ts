@@ -8,6 +8,11 @@ import delPostFunc from '@core/functions/delPost'
 import { Dispatch } from 'react'
 
 
+export const setUpdating = (): IreduxAction => {
+    return {
+        type: PostActTypes.setUpdating,
+    }
+};
 export const downloadPosts = (): IThunkAction => {
     return async (dispatch: Dispatch<IreduxAction>): Promise<void> => {
         const posts: IPosts = await downloadAllPosts();
@@ -41,10 +46,5 @@ export const updatePosts = (posts: IPosts): IreduxAction => {
 export const setDefault = (): IreduxAction => {
     return {
         type: PostActTypes.setDefault,
-    }
-};
-export const setUpdating = (): IreduxAction => {
-    return {
-        type: PostActTypes.setUpdating,
     }
 };
