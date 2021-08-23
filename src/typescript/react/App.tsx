@@ -12,6 +12,7 @@ import Post from '@core/classes/Post'
 import Posts from '@core/classes/Posts'
 import { Store } from 'redux'
 import {DataTest} from '@react/components/DataTest'
+import { Auth } from './components/Auth'
 
 
 
@@ -19,6 +20,7 @@ import {DataTest} from '@react/components/DataTest'
 export const App: React.FC = () => {
     return (
         <Provider store={store}>
+            <Auth />
             <DataTest />
         </Provider>
     )

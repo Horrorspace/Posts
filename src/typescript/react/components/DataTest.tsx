@@ -1,10 +1,8 @@
 import React, { ReactElement, useState, MouseEvent, ChangeEvent } from 'react'
-import {IAction, IThunkAction, IreduxState, IRootReducer} from '@redux/interfaces/IRedux'
+import {IRootReducer} from '@redux/interfaces/IRedux'
+import { IreduxAuthState } from '@redux/interfaces/IReduxAuth'
 import {useSelector, useDispatch} from 'react-redux'
-import {store} from '@redux/store'
-import { IPost, IPostData, IPostInstance, IPosts, INewPost } from '@core/interfaces/IPost'
-import Post from '@core/classes/Post'
-import Posts from '@core/classes/Posts'
+import { IPostInstance, IPosts, INewPost } from '@core/interfaces/IPost'
 import {Modal, Button, Container, Form, Row, Col} from 'react-bootstrap'
 import {delPost, putPost, sendNewPost, downloadPosts} from '@redux/actions/postActions'
 
@@ -12,6 +10,7 @@ import {delPost, putPost, sendNewPost, downloadPosts} from '@redux/actions/postA
 
 export const DataTest: React.FC = () => {
     const posts: IPosts = useSelector((state: IRootReducer) => state.post.posts);
+    const authState: IreduxAuthState = useSelector((state: IRootReducer) => state.auth);
     const postsList: IPostInstance[] = posts.getAllPosts();
     const idArr: number[] = postsList.map((val: IPostInstance) => val.getId());
     const [show, setShow] = useState(false);
@@ -112,6 +111,7 @@ export const DataTest: React.FC = () => {
             return (
                 <Container fluid="sm" className="d-flex flex-column justify-content-center">
                     <Button variant="primary" onClick={handleShow} id={`${post.getId()}`}>
+                        {authState.userId}
                         {post.getTitle()}
                     </Button>
                 </Container>

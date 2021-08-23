@@ -1,6 +1,8 @@
 import { IPostInstance, IPosts, INewPost } from '@core/interfaces/IPost'
+import {IreduxAuthState} from '@redux/interfaces/IReduxAuth'
 import {ThunkAction} from 'redux-thunk'
 import { AnyAction } from 'redux'
+import { from } from 'rxjs'
 
 export interface IreduxAction {
     type: string;
@@ -15,7 +17,8 @@ export interface IreduxState {
 }
 
 export interface IRootReducer {
-    post: IreduxState
+    post: IreduxState,
+    auth: IreduxAuthState
 }
 
 export type IThunkAction = ThunkAction<void, IreduxState, unknown, AnyAction>
