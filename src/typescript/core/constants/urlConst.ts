@@ -1,2 +1,2 @@
-export const url: string = 'https://37.193.148.113:3007/api/posts/';
-export const authUrl: string = 'https://37.193.148.113:3007/api/auth/';
+export const url: string = '192.168.88.244:3007/api/posts/';
+export const authUrl: string = '192.168.88.244:3007/api/auth/';
