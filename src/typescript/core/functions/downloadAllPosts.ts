@@ -11,7 +11,8 @@ import { url } from '@core/constants/urlConst'
 export default function downloadAllPosts(): Promise<IPosts> {
     return new Promise(resolve => {
         const headers = {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
         };
         const ajaxOptions: AjaxConfig = {
             url,
