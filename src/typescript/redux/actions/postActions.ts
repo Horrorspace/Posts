@@ -14,8 +14,10 @@ export const setUpdating = (): IreduxAction => {
     }
 };
 export const downloadPosts = (): IThunkAction => {
+    console.log('dispatch');
     return async (dispatch: Dispatch<IreduxAction>): Promise<void> => {
         const posts: IPosts = await downloadAllPosts();
+        console.log(posts);
         dispatch(updatePosts(posts));
     }
 };
@@ -38,6 +40,7 @@ export const delPost = (post: IPostInstance): IThunkAction => {
     }
 };
 export const updatePosts = (posts: IPosts): IreduxAction => {
+    console.log(posts)
     return {
         type: PostActTypes.updatePosts,
         posts

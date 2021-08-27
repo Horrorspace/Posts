@@ -12,6 +12,7 @@ const defaultState: IreduxState = {
 export const postReducer: Reducer = (state: IreduxState = defaultState, action: IreduxAction): IreduxState => {
     switch (action.type) {
         case PostActTypes.updatePosts:
+            console.log(action.posts);
             if(action.posts) {
                 return {
                     ...state,

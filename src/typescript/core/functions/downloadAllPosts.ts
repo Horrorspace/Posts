@@ -3,7 +3,7 @@ import postCheck from '@core/functions/postCheck'
 import Post from '@core/classes/Post'
 import Posts from '@core/classes/Posts'
 import { from, Subscription } from 'rxjs'
-import { ajax } from 'rxjs/ajax'
+import { ajax, AjaxConfig } from 'rxjs/ajax'
 import { filter, map, switchMap } from 'rxjs/operators'
 import { url } from '@core/constants/urlConst'
 
@@ -13,8 +13,15 @@ export default function downloadAllPosts(): Promise<IPosts> {
         const headers = {
             'Content-Type': 'application/json'
         };
+        const ajaxOptions: AjaxConfig = {
+            url,
+            headers,
+            withCredentials: true,
+            crossDomain: true
+        }
         const posts: IPosts = new Posts();
         const data$ = ajax.getJSON(url, headers).pipe(
+            //map((val) => console.log(val)),
             switchMap((val: any) => from(val)),
             filter((val: any) => typeof(val) === 'object'),
             filter((val: any) => postCheck(val)),

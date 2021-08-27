@@ -78,6 +78,7 @@ export const DataTest: React.FC = () => {
         setEditTitle(value);
     };
     const handeUpdate = () => {
+        console.log('dispatch(downloadPosts())');
         dispatch(downloadPosts());
     };
     const handeAddPost = () => {
