@@ -7,7 +7,7 @@ import { authUrl } from '@core/constants/urlConst'
 
 export default function login(user: IUser): Promise<ILoginRes> {
     return new Promise(resolve => {
-        let response: ILoginRes;
+        let success: boolean;
         const url = `${authUrl}login`;
         const data$ = ajax({
             url,
@@ -18,18 +18,21 @@ export default function login(user: IUser): Promise<ILoginRes> {
             body: JSON.stringify(user)
         }).pipe(
             map((val: AjaxResponse<any>) => {
-                const res: Response = val.response as Response;
-                return res as unknown;
+                const status: number = val.status;
+                return status;
             })
         );
         const sub: Subscription = data$.subscribe({
-            next: (val) => {
-                const data = val as ILoginRes;
-                const {userId, token} = data;
-                response = {userId, token};
+            next: (status) => {
+                if(status == 200) {
+                    success = true
+                }
+                else {
+                    success = false
+                }
             },
             complete: () => {
-                resolve(response);
+                resolve(status);
             }
         });
     })
